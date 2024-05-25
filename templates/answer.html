@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Answer</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
+    </head>
+    <body>
+            <div class="quiz-container">
+            <h1>Question: {{ question['question'] }}</h1>
+            <p>You selected: {{ chosen }}</p>
+            <p>Correct answer: {{ question['answer'] }}</p>
+            <p>{{ correct }}</p>
+            {% if correct %}
+                <audio id="correct" src="../static/assets/audio/correct.m4a" preload="auto"></audio>
+            {% else %}
+                <audio id="wrong" src="../static/assets/audio/wrong.m4a" preload="auto"></audio>
+            {% endif %}
+            <!--button onclick="window.location.href='next_question'" id="next-question-btn">Next Question</button-->
+            <form action="/next_question" method="post">
+                <input type="hidden" id="userId" name="userId" value="{{ username }}">
+                <button type="submit" id="next-question-btn" name="next-question-btn">
+                    {% if isFinalQtn %}
+                        Finish quiz
+                    {% else %}
+                        Next Question
+                    {% endif %}
+                </button>                
+            </form>
+            <script>
+                // let isCorrect = {{ correct }};
+                // Intro sound track
+                // JavaScript to play the audio when the page loads
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    const audio = document.getElementById('correct');
+                    audio.play();
+                });
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    const audio = document.getElementById('wrong');
+                    audio.play();
+                });
+            </script>
+        </div>
+    </body>
+</html>
